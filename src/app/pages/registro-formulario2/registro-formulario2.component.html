@@ -1,0 +1,92 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="onBack()">
+        <ion-icon slot="icon-only" name="arrow-back" color="light"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title> {{util.translate('Lista Items Seleccionados')}} </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+    <ion-card  class="order-list"  mode="ios">
+      <ion-item lines="none">
+        <ion-label class="custom-label">
+          <h2 style="color: red;" class="store-name">Datos Cliente</h2>
+          <h2 class="store-name" style="white-space: pre-line;">Código Cliente: {{persona.CardCode}}  </h2>
+          <h2 class="store-name" style="white-space: pre-line;">Cliente: {{persona.CardName}}  </h2>
+          <h2 class="store-name" style="white-space: pre-line;color: #c446e7;">Tipo de Venta al Cliente:  {{persona.GroupNumb}} </h2>
+          <h2 class="store-name" style="white-space: pre-line;color: red">Categoria:  {{persona.Categoria}}</h2>
+          <h2 class="store-name" style="white-space: pre-line;color: #adc647;">Ciudad:  {{persona.Ciudad}}</h2>
+          <h2 class="store-name" style="white-space: pre-line;">Nro Oferta XMobile: {{numero_documento}}  </h2>
+          <h2 class="store-name" style="white-space: pre-line;color: blue;">Tipo de Venta para la Solicitud: {{util.tipo_venta_solicitud_detalle}} </h2>
+         
+
+
+        </ion-label>
+      </ion-item>
+    </ion-card> 
+
+    <ion-card class="order-list"  mode="ios">
+      <ion-item lines="none">
+        <ion-label class="custom-label">
+          <h2 style="color: red;" class="store-name">Lista de Items</h2>
+        
+
+
+          <ion-list lines="none" *ngFor="let itemm of lista_itemss; let i = index">
+            <ion-item>
+              <ion-label class="custom-label" style="margin: 10px 0px 0px;">
+               <h2 style="color: black;" class="store-name"># {{i+1}} </h2>
+               <h2 class="store-name" style="color: red;padding: 0px 0px 10px; margin: auto;">* {{itemm.codigo}} </h2>
+               <h2 class="store-name" style="color: red; white-space:  pre-line;     padding: 0px 0px 10px;margin: auto;">* {{itemm.descripcion}}  </h2>
+               <h2 class="store-name" style=" white-space:  pre-line;     padding: 0px 0px 0px;margin: auto;">* Max Descuento: {{itemm.max_descuento_servicio}}  %</h2>
+              </ion-label>
+            </ion-item>
+
+           
+            <ion-grid>
+              <ion-row style="color: brown;">
+                <ion-col ><strong>Cantidad</strong></ion-col>
+                <ion-col><strong>%Descuento</strong></ion-col>
+                <ion-col><strong>Estado</strong></ion-col>
+              </ion-row>
+            
+              <ion-row>
+                <ion-col style="color: black; white-space:  pre-line; font-weight: 900;"><ion-item>{{itemm.cant}}</ion-item></ion-col>
+                <ion-col style="color: black; white-space:  pre-line; font-weight: 900;">
+                  <ion-item>
+                  
+                    <ion-input  type="number" min="0"  [id]="itemm.numero" style=" --padding-start: 12px;
+                    --border-radius: 5px;
+                    --placeholder-color: #00796b;
+                    border: 1px solid #004d40;
+                    --background: #ffffff;" placeholder="%"  (ionInput)="valii($event, itemm, i)"   [value]="itemm.Porcentaje_base" ></ion-input>
+                  </ion-item>
+                </ion-col>
+                <ion-col style=" white-space:  pre-line;font-weight: 900;"  [style.color]="itemm.estado_color_dd">{{itemm.estado_detalle_reso}}</ion-col>
+              </ion-row>
+            </ion-grid>
+
+
+          </ion-list> 
+
+
+        </ion-label>
+      </ion-item>
+    </ion-card>
+    
+    
+
+</ion-content> 
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button  expand="block" shape="round" class="login_btn"  [disabled]="isverificar" (click)="Registrar_solicitud_1()" >
+      <span > {{util.translate('Registrar Solicitud/Descuento')}}</span>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

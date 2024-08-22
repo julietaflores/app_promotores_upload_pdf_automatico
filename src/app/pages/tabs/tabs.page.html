@@ -1,0 +1,24 @@
+<ion-tabs>
+
+  <ion-tab-bar slot="bottom" color="primary">
+   
+   
+    <ion-tab-button tab="history">
+      <ion-icon aria-hidden="true" name="newspaper"></ion-icon>
+      <ion-label>{{getTranslate('Historial')}}</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="account">
+      <ion-icon aria-hidden="true" name="person-circle"></ion-icon>
+      <ion-badge   *ngIf="util.cantidad_notificaciones >0"   color="danger" class="notification-badge">{{util.cantidad_notificaciones}}</ion-badge>
+      <ion-label>{{getTranslate('Account')}}</ion-label>
+    </ion-tab-button>
+
+    
+  
+   
+
+
+  </ion-tab-bar>
+
+</ion-tabs>

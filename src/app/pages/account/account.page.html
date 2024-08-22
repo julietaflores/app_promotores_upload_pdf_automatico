@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+    </ion-buttons>
+    <ion-title> {{util.translate('Settings')}} </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+
+
+  <div class="content">
+
+   
+
+
+
+
+    <div class="title">
+      <h6> {{util.translate('Accounts')}} </h6>
+    </div>
+
+    <div class="items">
+
+
+
+      <ion-item lines="none" (click)="Lista_notificaciones()">
+      
+        <ion-label> {{util.translate('Notificaciones')}} </ion-label>
+
+       
+
+      </ion-item>
+    </div>
+
+
+    <div class="title">
+      <h6>{{util.translate('Mas Opciones')}} </h6>
+    </div>
+
+    <div class="items">
+      <ion-item lines="none" (click)="desconectar()">
+        <ion-label>{{util.translate('Desconectar')}} </ion-label>
+      </ion-item>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+
+</ion-content>

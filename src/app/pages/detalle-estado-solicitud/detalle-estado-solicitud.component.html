@@ -1,0 +1,108 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="onBack()">
+        <ion-icon slot="icon-only" name="arrow-back" color="light"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title> {{util.translate('Detalle Solicitud/Descuento')}} - {{Codigo}} </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+    <ion-card *ngFor="let item of lista_detalle_sd; let i = index" class="order-list"  mode="ios">
+      <ion-item lines="none">
+        <ion-label class="custom-label">
+          <h2 style="color: red;" class="store-name">Datos Cliente</h2>
+          <h2 class="store-name" style="white-space: pre-line;">Código Cliente: {{item.codigo_cliente}} </h2>
+          <h2 class="store-name" style="white-space: pre-line;">Cliente: {{item.nombre_cliente}}  </h2>
+          <h2 class="store-name" style="white-space: pre-line;">Promotor:  {{item.nombre_promotor}}  </h2>
+          <h2 class="store-name" style="white-space: pre-line;">Fecha Solicitud:  {{item.FechaRegistro}}  </h2>
+          <h2 class="store-name" [style.color]="item.color_estado">Estado:  {{item.detalle_estado}}  </h2>
+          <h2 class="store-name" style="white-space: pre-line;">Tipo de Venta al Cliente:  {{item.tipo_venta_cliente}}  </h2>
+          <h2 class="store-name" style="color: blue">Tipo de Venta para la Solicitud:   {{item.TipoVenta_solicitud}} </h2>
+          <h2 class="store-name" style="white-space: pre-line;">Nro Oferta XMobile:  {{item.nro_oferta_xmobile}}  </h2>
+          <h2 class="store-name" style="white-space: pre-line;">Adjunto PDF Oferta: </h2>
+
+
+          <ion-router-link [href]="url_pdf" target="_blank">
+            <img src="assets/imgs/pdf.png" alt="Ver PDF" style="width: 15%;margin: auto;" />
+          </ion-router-link>
+
+
+        </ion-label>
+      </ion-item>
+    </ion-card> 
+
+    <ion-card class="order-list"  mode="ios">
+      <ion-item lines="none">
+        <ion-label class="custom-label">
+          <h2 style="color: red;" class="store-name">Lista de Items</h2>
+        
+
+
+          <ion-list lines="none" *ngFor="let itemm of infor_items; let i = index">
+            <ion-item>
+              <ion-label class="custom-label" style="margin: 10px 0px 0px;">
+               <h2 class="store-name" style="color: red;padding: 0px 0px 10px; margin: auto;">* {{itemm.ItemCode}} </h2>
+               <h2 class="store-name" style="color: red; white-space:  pre-line;     padding: 0px 0px 10px;margin: auto;">* {{itemm.ItemName}}  </h2>
+               <h2 class="store-name" style=" white-space:  pre-line;     padding: 0px 0px 0px;margin: auto;">* Max Descuento: {{itemm.U_MaxDescuento}}  %</h2>
+              </ion-label>
+            </ion-item>
+
+           
+            <ion-grid>
+              <ion-row style="color: brown;">
+                <ion-col ><strong>Cantidad</strong></ion-col>
+                <ion-col><strong>%Descuento</strong></ion-col>
+                <ion-col><strong>Estado</strong></ion-col>
+              </ion-row>
+            
+              <ion-row>
+                <ion-col style="color: black; white-space:  pre-line; font-weight: 900;">{{itemm.Cantidad_base}}</ion-col>
+                <ion-col style="color: black; white-space:  pre-line; font-weight: 900;">{{itemm.Porcentaje_base}}%</ion-col>
+                <ion-col  style=" white-space:  pre-line;font-weight: 900;"  [style.color]="itemm.estado_color_d">{{itemm.detalle_estado}}</ion-col>
+              
+              </ion-row>
+              
+            </ion-grid>
+
+
+
+          </ion-list>
+
+
+        </ion-label>
+      </ion-item>
+    </ion-card>
+    
+    
+    <ion-card *ngFor="let item of lista_detalle_sd; let i = index" class="order-list"  mode="ios">
+      <ion-item lines="none">
+        <ion-label class="custom-label">
+          <h2 style="color: red;" class="store-name">Comentario Promotor</h2>
+          <h2 class="store-name" style="    white-space: pre-line;">{{item.comentario}} </h2>
+        </ion-label>
+      </ion-item>
+    </ion-card> 
+
+
+    <div  *ngIf="Estado_soli_j=='3'  || Estado_soli_j=='1'">
+      <ion-card *ngFor="let item of lista_detalle_sd; let i = index" class="order-list"  mode="ios"  >
+        <ion-item lines="none">
+          <ion-label class="custom-label">
+            <h2 style="color: red;" class="store-name">Comentario Aprobador</h2>
+            <h2 class="store-name" style="    white-space: pre-line;">{{item.Comentario_Aprobador}} </h2>
+          </ion-label>
+  
+        </ion-item>
+      </ion-card> 
+    </div>
+  
+
+
+
+</ion-content> 
+

@@ -1,0 +1,61 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="onBack()">
+        <ion-icon slot="icon-only" name="arrow-back" color="light"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title> {{util.translate('Lista de Clientes')}} </ion-title>
+  </ion-toolbar>
+  <ion-searchbar mode="ios" placeholder="Buscar Clientes" type="text" (ionInput)="onSearchChange($event)" [debounce]="250">
+  </ion-searchbar>
+</ion-header>
+
+
+
+<ion-content>
+
+
+    <ion-card *ngFor="let item of lista_clientes_X_promotor; let i = index" class="order-list"  mode="ios">
+      <ion-item lines="none">
+        <ion-label class="custom-label">
+          <h2 style="color: red;" class="store-name"># {{i+1}} </h2>
+          <h2 class="store-name">Codigo Cliente: {{item.CardCode}} </h2>
+          <h2 class="store-name" style="    white-space: pre-line;">Nombre Cliente: {{item.CardName}} </h2>
+          <h2 class="store-name" style="color: #879f9e;">Nit: {{item.LicTradNum}} </h2>
+          <h2 class="store-name" style="color:  #7e3b87;">Tipo de Venta: {{item.tipo_venta}} </h2>
+          <h2 class="store-name" style="color:  red;">Categoria: {{item.Categoria}} </h2>
+          <h2 class="store-name" style="color:  chocolate;">Ciudad: {{item.Ciudad}} </h2>
+        </ion-label>
+        <ion-label>
+          <ion-checkbox    [checked]="item.seleccionado" aria-label="Opción 1"    (ionChange)="onCheckboxChange(item)"></ion-checkbox>
+        </ion-label>
+      </ion-item>
+    </ion-card> 
+
+
+    <ion-item *ngFor="let item of dummy">
+      <ion-thumbnail slot="start">
+        <ion-skeleton-text animated style="width: 100%;height: 100px;"></ion-skeleton-text>
+      </ion-thumbnail>
+      <ion-label>
+        <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+      </ion-label>
+    </ion-item>
+
+
+
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="doRefresh($event)">
+      <ion-infinite-scroll-content loadingSpinner="bubbles" [loadingText]="util.translate('Loading more data...')">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+
+    <div *ngIf="dummy.length == 0 && lista_clientes_X_promotor?.length == 0" class="no-data">
+      <div [ngStyle]="{'background-image':'url(assets/imgs/no_data.png)'}" class="no-data-image" style="width: 100%; height: 100%; margin: auto;"></div>
+      <ion-label class="title">{{util.translate('Sin Información')}} </ion-label>
+    </div> 
+
+</ion-content>

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Promotores Monterrey</string>
+    <string name="title_activity_main">Promotores Monterrey</string>
+    <string name="package_name">io.initappz.capacitor.laundry.driver</string>
+    <string name="custom_url_scheme">io.initappz.capacitor.laundry.driver</string>
+</resources>

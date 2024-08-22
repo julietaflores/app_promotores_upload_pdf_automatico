@@ -1,0 +1,156 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{util.translate('Bienvenido,')}} {{usuario}}  </ion-title>
+    <ion-title>{{cargo_usuario}} </ion-title>
+  </ion-toolbar>
+
+
+  <ion-segment [(ngModel)]="currentId" (ionChange)="segmentChanged($event)" mode="md" class="category-segment">
+    <ion-segment-button value="new">
+      <ion-label style="white-space: pre-wrap; font-size: 15px;font-weight: 900;">{{util.translate('Estado Solicitud')}} </ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="old"  *ngIf="tipo_usuario==2">
+      <ion-label style="white-space: pre-wrap; font-size: 15px;font-weight: 900;">{{util.translate('Registrar Descuento (Cotización)')}} </ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+
+  <ion-item  *ngIf="currentId == 'new'">
+    <ion-select [(ngModel)]="selectedFruit" placeholder="Select One" (ionChange)="onSelectChange($event)">
+      <ion-select-option   [value]="item.Id"  *ngFor="let item of items_estado;let i = index" >
+        {{item.Detalle}} 
+      </ion-select-option>
+    </ion-select>
+  </ion-item> 
+
+
+</ion-header>
+
+<ion-content>
+  <div *ngIf="currentId == 'new'">
+    <ion-card *ngFor="let item of newOrders; let i = index" class="order-list" (click)="openDetails(item)" mode="ios">
+      <ion-item lines="none"  >
+        <ion-label>
+          <h2 style="color: red;" class="store-name"> {{i+1}}.- Código Solicitud/Descuento: {{item.Codigo}} </h2>
+          <h2 class="store-name"># de Oferta: {{item.nro_oferta_xmobile}} </h2>
+          <h2 class="store-name">Nombre Cliente: {{item.nombre_cliente}} </h2>
+          <h2 class="store-name">Nombre Aprobador: {{item.Nombre_Aprobador}} </h2>
+          <p class="store-address">Fecha de Registro: {{item.FechaRegistro}}</p>
+        </ion-label>
+      </ion-item>
+    </ion-card>
+
+
+    <ion-item *ngFor="let item of dummy">
+      <ion-thumbnail slot="start">
+        <ion-skeleton-text animated style="width: 100%;height: 100px;"></ion-skeleton-text>
+      </ion-thumbnail>
+      <ion-label>
+        <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+      </ion-label>
+    </ion-item>
+
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="doRefresh($event)">
+      <ion-infinite-scroll-content loadingSpinner="bubbles" [loadingText]="util.translate('Loading more data...')">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+    <div *ngIf="dummy.length == 0 && newOrders?.length == 0" class="no-data">
+      <div [ngStyle]="{'background-image':'url(assets/imgs/no_data.png)'}" class="no-data-image" style="width:  100%; height: 100%; margin: auto;"></div>
+      <ion-label class="title">{{util.translate('Sin Información')}} </ion-label>
+    </div>
+
+
+  </div>
+
+
+
+
+
+
+  <div *ngIf="currentId == 'old'">
+        <ion-item lines="none">
+          <ion-icon name="checkmark-outline" slot="start"></ion-icon>
+          <ion-input [placeholder]="util.translate('Nro. Oferta Xmobile')" type="number"  [value]="numero_documento"  disabled></ion-input>
+        </ion-item>
+
+    
+
+
+        
+        <ion-item lines="none" (click)="Lista_Cliente_X_promotor()">
+          <ion-buttons slot="start">
+              <ion-icon name="people-outline"></ion-icon>
+          </ion-buttons>
+          <ion-label  *ngIf="!personaString">{{util.translate('Lista de Clientes')}} </ion-label>
+          <ion-label *ngIf="personaString" >
+            <h2 class="store-name">Codigo Cliente: {{persona.CardCode}}</h2>
+            <h2 class="store-name" style="    white-space: pre-line;">Nombre Cliente: {{persona.CardName}} </h2>
+            <h2 class="store-name" style="color: #879f9e;">Nit: {{persona.LicTradNum}}</h2>
+            <h2 class="store-name" style="color:  #7e3b87;">Tipo de Venta: {{persona.tipo_venta}}</h2>
+            <h2 class="store-name" style="color:  red;">Categoria: {{persona.Categoria}} </h2>
+            <h2 class="store-name" style="color:  chocolate;">Ciudad: {{persona.Ciudad}} </h2>
+          </ion-label>
+          <ion-buttons slot="end">
+              <ion-icon name="chevron-forward-outline"></ion-icon>
+          </ion-buttons>
+        </ion-item>
+
+
+
+        <ion-item lines="none" *ngIf="PDF_CARGADO == '0'"  >
+          <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>
+          <ion-button  (click)="triggerFileInput()">Cargar PDF</ion-button>
+        </ion-item>
+
+        <ion-item lines="none" *ngIf="PDF_CARGADO == '1'"  >
+          <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>
+          <ion-button color="success" (click)="triggerFileInput()">PDF Cargado</ion-button>
+        </ion-item>
+
+        <input type="file" #fileInput style="display: none;" (change)="handleFileInput($event)" />
+      
+
+
+
+
+        <ion-item lines="none"  *ngIf="personaString">
+          <ion-buttons slot="start">
+            <ion-icon name="albums-outline"></ion-icon>
+          </ion-buttons>
+          <ion-select [(ngModel)]="util.tipo_venta_solicitud" placeholder="Select One" (ionChange)="onSelectChange_tv($event)">
+            <ion-select-option   [value]="item.Id"  *ngFor="let item of items_tipo_venta_lo;let i = index" >
+              {{item.Detalle}} 
+            </ion-select-option>
+          </ion-select>
+        </ion-item> 
+
+        <ion-item lines="none">
+          <ion-buttons slot="start">
+            <ion-icon name="send-outline"></ion-icon>
+          </ion-buttons>
+          <ion-label>{{util.translate('Comentario')}} </ion-label>
+        </ion-item>
+
+
+        <ion-item lines="none">
+            <ion-textarea [(ngModel)]="text_area_mensaje" rows="4" style="border: 3px solid var(--ion-color-primary); padding: 0px 10px 10px 10px;" placeholder="Escribe algun Comentario"></ion-textarea>
+        </ion-item>
+
+      
+  </div>
+
+
+
+
+</ion-content>
+
+<ion-footer  *ngIf="currentId == 'old'">
+  <ion-toolbar>
+    <ion-button  expand="block" shape="round" class="login_btn"  [disabled]="isverificar" (click)="Verificar_solicitud()" >
+      <span > {{util.translate('Verificar Solicitud/Descuento')}}</span>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

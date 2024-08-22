@@ -1,0 +1,70 @@
+<ion-content>
+  <div [ngStyle]="{'background-image': 'url(assets/imgs/login13.jpg)'}" class="bg-image-login">
+  </div>
+  <div class="login-content">
+
+
+
+
+    <form #loginForm="ngForm" class="animated animatedFadeInUp fadeInUp">
+
+      
+      <ion-item lines="none">
+        <ion-icon name="person-circle-outline" slot="start"></ion-icon>
+        <ion-input [placeholder]="util.translate('Usuario')"  [disabled]="isLogin" [(ngModel)]="login.usuario"  name="email" #email="ngModel" spellcheck="false" autocapitalize="off" required></ion-input>
+      </ion-item>
+      <ion-text color="danger">
+        <p [hidden]="login.usuario !='' || submitted == false" class="ion-padding-start">
+          {{util.translate('se requiere usuario')}}
+        </p>
+      </ion-text>
+
+      <ion-item lines="none">
+        <ion-icon name="lock-closed" slot="start"></ion-icon>
+        <ion-input [placeholder]="util.translate('Clave')" type="password" [disabled]="isLogin" [(ngModel)]="login.password" name="password" [type]="viewPassword== true?'text':'password'" #password="ngModel" required></ion-input>
+        <ion-button (click)="changeType()" fill="clear" slot="end" class="toggle_btn">
+          <ion-icon slot="icon-only" [name]="viewPassword == true? 'eye-outline':'eye-off-outline'">
+          </ion-icon>
+        </ion-button>
+      </ion-item>
+
+      <ion-text color="danger">
+        <p [hidden]="login.password !='' || submitted == false" class="ion-padding-start">
+          {{util.translate('Password is required')}}
+        </p>
+      </ion-text>
+
+      <ion-button (click)="onLogin(loginForm)" type="submit" expand="block" [disabled]="isLogin" shape="round"
+        class="login_btn">
+        <ion-spinner name="circles" *ngIf="isLogin"></ion-spinner>
+        <span *ngIf="!isLogin"> {{util.translate('INGRESAR')}} </span>
+      </ion-button>
+
+    </form>
+
+
+
+    
+  </div>
+</ion-content>
+<!-- 
+<ion-footer>
+  <ion-toolbar>
+
+    <div class="status_div">
+      <div style="width: 200px;">
+        <ion-select [placeholder]="util.translate('English')" [(ngModel)]="selectedLanguages" interface="popover">
+          <ion-select-option [value]="item.code" *ngFor="let item of util.allLanguages"> {{item.name}}
+          </ion-select-option>
+        </ion-select>
+      </div>
+
+      <div>
+        <ion-button (click)="translateApp()" size="small">
+          {{util.translate('Translate')}}
+        </ion-button>
+      </div>
+    </div>
+
+  </ion-toolbar>
+</ion-footer> -->
