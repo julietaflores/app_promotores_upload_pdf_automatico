@@ -28,6 +28,7 @@ export class RegistroFormulario2Component  implements OnInit {
   personaString:any='';
   persona:any;
   lista_itemss: any[] = [];
+  lista_itemss_aux: any[] = [];
   lista_itemss_cliente: any[] = [];
   numero_documento: any=0;
   estt:any=0;
@@ -81,12 +82,36 @@ export class RegistroFormulario2Component  implements OnInit {
 
 this.lista_itemss_cliente=[];
 this.lista_itemss_cliente.push(this.persona);
-    console.log('ddd '+JSON.stringify(this.lista_itemss));
 
+
+    console.log('ddd '+JSON.stringify(this.lista_itemss));
+   this.lista_itemss_aux= this.lista_itemss;
+   console.log('ddd 1 '+JSON.stringify(this.lista_itemss_aux));
+
+
+    const eliminarCampo = (array: Array<{ [key: string]: any }>, campoAEliminar: string) => {
+      return array.map(objeto => {
+        const { [campoAEliminar]: eliminado, ...resto } = objeto;
+        return resto;
+      });
+    };
+
+    this.lista_itemss_aux = eliminarCampo(this.lista_itemss_aux, 'descripcion');
+    this.lista_itemss_aux = eliminarCampo(this.lista_itemss_aux, 'cant');
+    this.lista_itemss_aux = eliminarCampo(this.lista_itemss_aux, 'und');
+    this.lista_itemss_aux = eliminarCampo(this.lista_itemss_aux, 'peso');
+    this.lista_itemss_aux = eliminarCampo(this.lista_itemss_aux, 'precio');
+    this.lista_itemss_aux = eliminarCampo(this.lista_itemss_aux, 'codigo');
+    this.lista_itemss_aux = eliminarCampo(this.lista_itemss_aux, 'neto');
+    this.lista_itemss_aux = eliminarCampo(this.lista_itemss_aux, 'total');
+    this.lista_itemss_aux = eliminarCampo(this.lista_itemss_aux, 'estado_detalle_reso');
+    this.lista_itemss_aux = eliminarCampo(this.lista_itemss_aux, 'max_descuento_servicio');
+    this.lista_itemss_aux = eliminarCampo(this.lista_itemss_aux, 'porcetanje');
+    console.log(this.lista_itemss_aux);
 
 
     this.validar_dd = this.lista_itemss.filter(objeto => objeto.Estado_Porcentaje === "1").length;
-   console.log(this.validar_dd);
+    console.log(this.validar_dd);
 
      this.hhh=this.validar_dd>0?2:4;
      localStorage.setItem('Estadooo',this.hhh);
@@ -104,15 +129,15 @@ this.lista_itemss_cliente.push(this.persona);
        nombre_promotor:localStorage.getItem("nombreusuario"),
        version_app:localStorage.getItem("Ultimaversion"),
        tipo_venta_cliente:localStorage.getItem('tipo_venta_solicitud'),
-       lista_item_descuento_array:this.lista_itemss
+       lista_item_descuento_array:this.lista_itemss_aux
       }
 
 
-  console.log(a);
 
- 
 
-    this.api.getDataParamentJson("registrar_solicitud_descuento__new", a).then((datass: any) => {
+
+
+    this.api.insert_datos_json("registrar_solicitud_descuento",a).then((datass: any) => {
       console.log("datos sd "+datass);
           
        const ffg= datass;
@@ -121,10 +146,6 @@ this.lista_itemss_cliente.push(this.persona);
          }else{
           this.Registrar_solicitud_3();
          }
-  
-
-
-
     },error => {
       console.log(error);
       this.util.apiErrorHandler(error);

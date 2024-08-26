@@ -102,6 +102,21 @@ export class ApiService {
   }
 
 
+  public insert_datos_json(url:any,body:any): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+     const vv= this.baseUrl_1 + url;
+     let Data=[];
+     Data.push(body);
+     console.log(JSON.stringify(Data));
+     console.log(this.baseUrl_1 + url+'&datos='+JSON.stringify(Data));
+     this.http.post(this.baseUrl_1 + url+'&datos='+JSON.stringify(Data),'').subscribe((data) => {
+      resolve(data);
+     }, error => {
+      resolve('error');
+     });
+    });
+  }
+  
 
 
 
